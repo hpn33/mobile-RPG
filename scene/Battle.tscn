@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scene/Battle.gd" type="Script" id=1]
+[ext_resource path="res://obj/enemy/Rat.tscn" type="PackedScene" id=2]
+[ext_resource path="res://obj/enemy/Rat2.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/Images/Dungeon.png" type="Texture" id=4]
+[ext_resource path="res://obj/UI/UI.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scene/PlayerStats.gd" type="Script" id=6]
+[ext_resource path="res://scene/StateMachine.gd" type="Script" id=7]
+
+[node name="Battle" type="Node"]
+script = ExtResource( 1 )
+enemies = [ ExtResource( 2 ), ExtResource( 3 ) ]
+
+[node name="Dungeon" type="Sprite" parent="."]
+texture = ExtResource( 4 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="enemyPos" type="Node2D" parent="."]
+position = Vector2( 44, 33 )
+
+[node name="UI" parent="." instance=ExtResource( 5 )]
+
+[node name="CenterContainer" parent="UI" index="0"]
+editor/display_folded = false
+
+[node name="PlayerStats" type="Node" parent="."]
+script = ExtResource( 6 )
+
+[node name="SM" type="Node" parent="."]
+script = ExtResource( 7 )
+
+[connection signal="pressed" from="UI/CenterContainer/next" to="." method="_on_next_pressed"]
+[connection signal="state_changed" from="SM" to="." method="_on_SM_state_changed"]
+
+[editable path="UI"]
